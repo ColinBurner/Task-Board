@@ -25,6 +25,34 @@
       <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#formModal">Add Task</button>
     </div>
     <!-- Todo: Create a modal with a form to add tasks -->
+    <div class="modal fade" id="formModal" tabindex="-1" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="formModalLabel">Add Task</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Task form -->
+              <form id="taskForm">
+                <div class="mb-3">
+                  <label for="taskTitle" class="form-label">Task Title</label>
+                  <input type="text" class="form-control" id="taskTitle" required>
+                </div>
+                <div class="mb-3">
+                  <label for="taskDescription" class="form-label">Task Description</label>
+                  <textarea class="form-control" id="taskDescription" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="taskDueDate" class="form-label">Due Date</label>
+                    <input type="text" class="form-control" id="taskDueDate" name="taskDueDate" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     <div class="row swim-lanes text-center justify-content-between">
       <div class="col-12 col-lg-4 d-flex">
         <div id="to-do" class="card border-light mb-3 lane flex-grow-1">
@@ -64,8 +92,15 @@
     crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"
     integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U=" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function() {
+          // Initialize datepicker
+          $('#taskDueDate').datepicker();
+        });
+      </script>
 
   <script src="./assets/js/script.js"></script>
 </body>
