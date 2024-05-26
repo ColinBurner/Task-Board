@@ -17,6 +17,10 @@ body {
     cursor: grab;
   }
 
+  .card {
+    cursor: grab;
+  }
+
   #project-form {
     font-family: "Permanent Marker", cursive;
     font-weight: 400;

@@ -116,22 +116,25 @@ function createTaskCard(task, taskIndex) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-    // Retrieves tasks from local storage
     var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-    // Get the "to do" section container
     var todoSection = document.getElementById('todo-cards');
-
-    // Clears existing task cards
     todoSection.innerHTML = '';
 
-    // Iterate through tasks and create task cards
     tasks.forEach(function (task, index) {
-        // Create a new task card element
-        var card = createTaskCard(task, index);
-
-        // Append the task card to the "to do" section container
+        var card = document.createElement('div');
+        card.classList.add('card');
+        card.textContent = task.title;
         todoSection.appendChild(card);
+
+        $(card).draggable({
+            revert: 'invalid',
+            start: function () {
+                $(this).css('z-index', 1000);
+            },
+            stop: function () {
+                $(this).css('z-index', '');
+            }
+        });
     });
 }
 
@@ -242,3 +245,19 @@ function renderTaskList() {
     });
 }
 
+ $(document).ready(function() {
+    // Initialize datepicker
+    $('#taskDueDate').datepicker();
+});
+    
+$(document).ready(function () {
+    $('.card').draggable({
+        revert: 'invalid',
+        start: function () {
+            $(this).css('z-index', 1000);
+        },
+        stop: function () {
+            $(this).css('z-index', '');
+        }
+    });
+});
