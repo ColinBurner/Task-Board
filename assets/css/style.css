@@ -45,6 +45,12 @@ body {
 
   .card {
     border-radius: 20%;
+    border: solid;
+  }
+
+  .header-base {
+    background-color: rgb(245, 227, 205);
+    font-weight: bold;
   }
   
   h5 {

@@ -4,10 +4,11 @@ let nextId = JSON.parse(localStorage.getItem("nextId")) || 1;
 
 $(document).ready(function () {
     renderTaskList();
-    // Initialize the date picker
+  
+    // Initializes the date picker
     $('#taskDueDate').datepicker();
 
-    // Handle form submission
+    // Handles form submission
     $('#taskForm').submit(function (event) {
         event.preventDefault();
         handleAddTask();
@@ -114,7 +115,7 @@ function handleDeleteTask(taskId) {
 function initializeDragAndDrop() {
     $('.lane').droppable({
         accept: '.task-card',
-        tolerance: 'intersect',
+        tolerance: 'intersect', // Ensures the drop event is triggered when at least 50% of the draggable overlaps with the droppable
         drop: function (event, ui) {
             handleDrop($(ui.draggable).data('task-id'), $(this).attr('id').replace('-cards', ''));
         }
