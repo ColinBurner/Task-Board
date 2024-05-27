@@ -115,28 +115,57 @@ function createTaskCard(task, taskIndex) {
 }
 
 // Todo: create a function to render the task list and make cards draggable
+$(document).ready(function () {
+    // Make the "In Progress" lane droppable
+    $('#in-progress-cards').droppable({
+        accept: '.card', // Only accept elements with the 'card' class
+        drop: function(event, ui) {
+            // Handle the drop event here
+            handleDrop(ui.draggable, 'in-progress');
+        }
+    });
+
+    // Make the "Done" lane droppable
+    $('#done-cards').droppable({
+        accept: '.card', // Only accept elements with the 'card' class
+        drop: function(event, ui) {
+            // Handle the drop event here
+            handleDrop(ui.draggable, 'done');
+        }
+    });
+
+    // Make the cards draggable
+    $('.card').draggable({
+        revert: false,
+        start: function () {
+            $(this).css('z-index', 1000);
+        },
+        stop: function () {
+            $(this).css('z-index', '');
+        }
+    });
+});
+
+
+// Function to render the task list
 function renderTaskList() {
+    // Retrieve tasks from local storage
     var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    // Get the "to do" section container
     var todoSection = document.getElementById('todo-cards');
+    // Clears existing task cards
     todoSection.innerHTML = '';
-
+    // Iterate through tasks and create task cards
     tasks.forEach(function (task, index) {
-        var card = document.createElement('div');
-        card.classList.add('card');
-        card.textContent = task.title;
+        // Create a new task card element
+        var card = createTaskCard(task, index);
+        // Append the task card to the "to do" section container
         todoSection.appendChild(card);
-
-        $(card).draggable({
-            revert: 'invalid',
-            start: function () {
-                $(this).css('z-index', 1000);
-            },
-            stop: function () {
-                $(this).css('z-index', '');
-            }
-        });
     });
 }
+
+
+
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event) {
@@ -193,35 +222,27 @@ function handleDeleteTask(taskIndex) {
 
 
 // Todo: create a function to handle dropping a task into a new status lane
-function handleDrop(taskIndex, ui) {
-    // Get the dropped element and the target lane
-    var droppedElement = ui.draggable;
-    var targetLane = $(this).attr('id');
-
-    // Retrieve the task index from the data attribute
-    var taskIndex = $(droppedElement).data('task-index');
-
-    // Retrieve existing tasks from local storage or initialize an empty array
-    var tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-    // Update the status of the dropped task
-    if (targetLane === 'in-progress-cards') {
-        tasks[taskIndex].status = 'in-progress';
-    } else if (targetLane === 'done-cards') {
-        tasks[taskIndex].status = 'done';
-    } else {
-        tasks[taskIndex].status = 'todo';
+$('.card').droppable({
+    drop: function (event, ui) {
+        console.log('Dropped onto:', $(this).attr('id'));
+        handleDrop(ui.draggable, $(this).closest('.lane').attr('id'));
     }
+});
 
-    // Store the updated tasks array in local storage
-    localStorage.setItem('tasks', JSON.stringify(tasks));
+// Modify the handleDrop function to accept the dropped element and target lane ID
+function handleDrop(droppedElement, targetLane) {
+    console.log('Handling drop:', droppedElement, targetLane);
+
+    // Retrieve the task index from the dropped element's data attribute
+    var taskIndex = droppedElement.data('task-index');
+    console.log('Task index:', taskIndex);
+
+    // Your existing code for updating task status and rendering task list
+    // ...
 
     // Re-render the task list
     renderTaskList();
 }
-
-// When the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
-renderTaskList();
 
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
@@ -245,19 +266,9 @@ function renderTaskList() {
     });
 }
 
- $(document).ready(function() {
+$(document).ready(function () {
     // Initialize datepicker
     $('#taskDueDate').datepicker();
 });
-    
-$(document).ready(function () {
-    $('.card').draggable({
-        revert: 'invalid',
-        start: function () {
-            $(this).css('z-index', 1000);
-        },
-        stop: function () {
-            $(this).css('z-index', '');
-        }
-    });
-});
+
+
