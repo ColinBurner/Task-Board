@@ -11,21 +11,53 @@ body {
   
   .task-card {
     margin: 0 auto;
+    cursor: grab;
+    font-family: "Sedan SC", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 20px;
   }
   
   .task-card:hover {
     cursor: grab;
   }
 
-  .task-card {
-    cursor: grab;
+  .dragging {
+    z-index: 10000 !important;
   }
 
-  #project-form {
+  .lane.over {
+    border: 2px dashed #000;
+  }
+
+  .due-soon {
+    background-color: gold;
+    color: white;
+    border-radius: 20%;
+  }
+
+  .due-today,
+  .overdue {
+    background-color: red;
+    color: white;
+    border-radius: 20%;
+  }
+
+  .card {
+    border-radius: 20%;
+  }
+  
+  h5 {
+    text-decoration: underline;
+    font-size: 30px;
+  }
+
+  h1, h2 {
     font-family: "Permanent Marker", cursive;
     font-weight: 400;
     font-style: normal;
   }
 
+  
   
   

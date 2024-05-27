@@ -1,6 +1,6 @@
 // Retrieve tasks and nextId from localStorage
-let taskList = JSON.parse(localStorage.getItem("tasks"));
-let nextId = JSON.parse(localStorage.getItem("nextId"));
+let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+let nextId = JSON.parse(localStorage.getItem("nextId")) || 1;
 
 $(document).ready(function () {
     renderTaskList();
@@ -24,7 +24,7 @@ function generateTaskId() {
 
 // Todo: create a function to create a task card
 function createTaskCard(task) {
-    var card = $('<div class="card mb-3" data-task-id="' + task.id + '"></div>');
+    var card = $('<div class="card mb-3 task-card" data-task-id="' + task.id + '"></div>');
 
     var cardBody = $('<div class="card-body"></div>');
     var cardTitle = $('<h5 class="card-title">' + task.title + '</h5>');
@@ -33,8 +33,21 @@ function createTaskCard(task) {
     if (task.dueDate && task.dueDate.trim() !== '') {
         var dueDateText = $('<p class="card-text">Due Date: ' + task.dueDate + '</p>');
         cardBody.append(dueDateText);
+
+        // Used day.js to check due date and apply appropriate class aka color to the card
+        var today = dayjs();
+        var dueDate = dayjs(task.dueDate);
+
+        if (dueDate.isSame(today, 'day')) {
+            cardBody.addClass('due-today');
+        } else if (dueDate.isBefore(today, 'day')) {
+            cardBody.addClass('overdue');
+        } else if (dueDate.diff(today, 'day') <= 2) {
+            cardBody.addClass('due-soon');
+        }
     }
 
+    // Creates the delete button on the newcard
     var deleteButton = $('<button class="btn btn-danger mt-3">Delete</button>');
     deleteButton.click(function () {
         handleDeleteTask(task.id);
@@ -45,6 +58,7 @@ function createTaskCard(task) {
 
     return card;
 }
+
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
@@ -57,20 +71,14 @@ function renderTaskList() {
         $('#' + task.status + '-cards').append(card);
         $(card).draggable({
             revert: 'invalid',
-            stack: '.card',
+            stack: '.task-card',
             handle: '.card-body',
-            start: function () {
-                $(this).css('z-index', 1000);
-            },
-            stop: function () {
-                $(this).css('z-index', '');
-            }
+            zIndex: 1000 // this ensures the dragged cards appear above anything else on the page
         });
     });
 
     initializeDragAndDrop();
 }
-
 
 // Todo: create a function to handle adding a new task
 function handleAddTask() {
@@ -101,18 +109,17 @@ function handleDeleteTask(taskId) {
     renderTaskList();
 }
 
+
 // Todo: create a function to handle dropping a task into a new status lane
 function initializeDragAndDrop() {
     $('.lane').droppable({
-        accept: '.card',
+        accept: '.task-card',
+        tolerance: 'intersect',
         drop: function (event, ui) {
-            var taskId = $(ui.draggable).data('task-id');
-            var targetLane = $(this).attr('id').replace('-cards', '');
-            handleDrop(taskId, targetLane);
+            handleDrop($(ui.draggable).data('task-id'), $(this).attr('id').replace('-cards', ''));
         }
     });
 }
-
 
 // Modify the handleDrop function to accept the dropped element and target lane ID
 function handleDrop(taskId, targetLane) {
@@ -123,6 +130,7 @@ function handleDrop(taskId, targetLane) {
         renderTaskList();
     }
 }
+
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 
