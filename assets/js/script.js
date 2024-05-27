@@ -237,9 +237,6 @@ function handleDrop(droppedElement, targetLane) {
     var taskIndex = droppedElement.data('task-index');
     console.log('Task index:', taskIndex);
 
-    // Your existing code for updating task status and rendering task list
-    // ...
-
     // Re-render the task list
     renderTaskList();
 }
