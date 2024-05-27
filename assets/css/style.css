@@ -17,7 +17,7 @@ body {
     cursor: grab;
   }
 
-  .card {
+  .task-card {
     cursor: grab;
   }
 
@@ -27,4 +27,5 @@ body {
     font-style: normal;
   }
 
+  
   
