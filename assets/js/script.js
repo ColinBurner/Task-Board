@@ -30,6 +30,7 @@ function createTaskCard(task) {
     var cardBody = $('<div class="card-body"></div>');
     var cardTitle = $('<h5 class="card-title">' + task.title + '</h5>');
     var cardText = $('<p class="card-text">' + task.description + '</p>');
+// this function dynamically updates the html, assigning inputs to proper heading element, div element and paragraph element.   
 
     if (task.dueDate && task.dueDate.trim() !== '') {
         var dueDateText = $('<p class="card-text">Due Date: ' + task.dueDate + '</p>');
@@ -66,12 +67,14 @@ function renderTaskList() {
     $('#todo-cards').empty();
     $('#in-progress-cards').empty();
     $('#done-cards').empty();
+// this function when called renders the current tasks on the page, makes them draggable anywhere on the page
 
     taskList.forEach(function (task) {
         var card = createTaskCard(task);
         $('#' + task.status + '-cards').append(card);
         $(card).draggable({
             revert: 'invalid',
+  //revert invalid makes it so if a card is dropped anywhere but a designated drop lane, it goes back to where it was dragged from          
             stack: '.task-card',
             handle: '.card-body',
             zIndex: 1000 // this ensures the dragged cards appear above anything else on the page
@@ -86,7 +89,7 @@ function handleAddTask() {
     var title = $('#taskTitle').val();
     var description = $('#taskDescription').val();
     var dueDate = $('#taskDueDate').val();
-
+// this function adds new tasks as they are entered, assigns them a unique id and adds them to the taskList string
     var newTask = {
         id: generateTaskId(),
         title: title,
@@ -131,10 +134,3 @@ function handleDrop(taskId, targetLane) {
         renderTaskList();
     }
 }
-
-
-// Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
-
-
-
-
