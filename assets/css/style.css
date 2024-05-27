@@ -3,6 +3,7 @@ body {
     font-weight: 400;
     font-style: normal;
     font-size: 16px;
+    background-color: #0c0c22;
   }
   
   .swim-lanes {
@@ -30,12 +31,14 @@ body {
     border: 2px dashed #000;
   }
 
+  /*gives color class of gold for due soon assignments, connected to day.js in javascript*/
   .due-soon {
     background-color: gold;
     color: white;
     border-radius: 20%;
   }
 
+  /*gives color class of red for due today or past due assignments, connected to day.js in javascript*/
   .due-today,
   .overdue {
     background-color: red;
@@ -48,9 +51,15 @@ body {
     border: solid;
   }
 
+
   .header-base {
     background-color: rgb(245, 227, 205);
     font-weight: bold;
+    color: black;
+  }
+
+  .lead {
+    color: white;
   }
   
   h5 {
@@ -58,11 +67,20 @@ body {
     font-size: 30px;
   }
 
-  h1, h2 {
+  h1 {
     font-family: "Permanent Marker", cursive;
     font-weight: 400;
     font-style: normal;
+    color: white;
   }
+
+  h2 {
+    font-family: "Permanent Marker", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: black;
+  }
+  
 
   
   
